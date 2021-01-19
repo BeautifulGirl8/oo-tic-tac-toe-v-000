@@ -39,9 +39,7 @@ def move(input_to_index, player)
 @board |input_to_index| = player
 end
 
-#def valid_move?(board, index)
-   #!position_taken?(board, index) && index.between?(0,  8)
- #end
+
 
  def position_taken?(input_to_index)
  if board[input_to_index] == "X" || board[input_to_index] == "O"
@@ -60,7 +58,6 @@ end
  @board.each do |i|
     i == "X" || i == "O"
      count += 1
-
    end
    return count
  end
@@ -70,10 +67,9 @@ def turn(board)
   puts "Please enter 1-9:"
   input = gets.strip
   index = input_to_index(input)
-  if valid_move?(board, index)
-    move(board, index, current_player(board))
-
-    display_board(board)
+  if valid_move?(index)
+    move(index, current_player)
+    display_board
   else
     puts "invalid"
     turn(board)
@@ -95,88 +91,94 @@ end
 
 
 
-def current_player(board)
- number = turn_count(board)
- if number % 2 == 0
-  return "X"
-else
-  return "O"
- end
+def current_player
+ turn_count % 2 == 0 "X" || "O"
  end
 
-
-
-
-
-
-
-# !(board[index].nil? || board[index] == " "
-#win_index_1 = win_combination[0]
-    #win_index_2 = win_combination[1]
-    #win_index_3 = win_combination[2]
-
-    #position_1 = board[win_index_1]
-    #position_2 = board[win_index_2]
-    #position_3 = board[win_index_3]
-
-
-
-
-
-def won?(board)
-
- WIN_COMBINATIONS.detect do | win_combination |
-
-location1 = win_combination[0]
-location2 = win_combination[1]
-location3 = win_combination[2]
-
-board[location1] == board[location2] && board[location2] == board[location3] && board[location1] != " "
-    end
-end
-
-def full?(board)
-board.none? { | position | position == " " }
-end
-
-def draw?(board)
-full?(board) && !won?(board)
-end
-
-
-
-
-
-
-
-
-
-
-
-
-def over?(board)
-  won?(board) || draw?(board)
-end
-
-def winner(board)
-  win_combination = won?(board)
-  if win_combination != nil
-    win_location = win_combination[0]
-    board[win_location]
-
-  end
-end
-
-def play(board)
-  until over?(board)
-     turn(board)
-  end
-  if won?(board)
-     winner(board) == "X" || winner(board) == "O"
-     puts "Congratulations #{winner(board)}!"
-  elsif draw?(board)
-     puts "Cat's Game!"
-  end
-end
-
-end
+ def turn
+         puts "Please enter 1-9:"
+         input = gets.strip
+         index = input_to_index(input)
+         player = current_player
+         if valid_move?(index) == true
+             move(index, player)
+             display_board
+         else
+             input = gets.strip
+             index = input_to_index(input)
+             valid_move?(index)
+             puts "Please enter 1-9:"
+         end
+     end
+ 
+     def won?
+         for x in WIN_COMBINATIONS
+           win_index_1 = x[0]
+           win_index_2 = x[1]
+           win_index_3 = x[2]
+           p1 = @board[win_index_1]
+           p2 = @board[win_index_2]
+           p3 = @board[win_index_3]
+ 
+           if p1 == "X" && p2 == "X" && p3 == "X"
+             return x
+           elsif p1 == "O" && p2 == "O" && p3 == "O"
+             return x
+           end
+         end
+         false
+     end
+ 
+     def full?
+         @board.all?{|cell| cell != ' '}
+     end
+ 
+ 
+     def draw?
+         if won?
+         false
+         elsif full?
+         true
+         else
+         false
+         end
+     end
+ 
+     def over?
+         if won? || draw?
+           true
+         else
+           false
+         end
+     end
+ 
+     def winner
+         for x in WIN_COMBINATIONS
+           win_index_1 = x[0]
+           win_index_2 = x[1]
+           win_index_3 = x[2]
+           p1 = @board[win_index_1]
+           p2 = @board[win_index_2]
+           p3 = @board[win_index_3]
+ 
+           if p1 == "X" && p2 == "X" && p3 == "X"
+             return 'X'
+           elsif p1 == "O" && p2 == "O" && p3 == "O"
+             return 'O'
+           end
+         end
+         nil
+     end
+ 
+     def play
+         until over?
+           turn
+         end
+ 
+         if winner
+           puts "Congratulations #{winner}!"
+         elsif draw?
+           puts "Cat's Game!"
+         end
+     end
+ end

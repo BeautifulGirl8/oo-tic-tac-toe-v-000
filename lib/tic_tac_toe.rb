@@ -110,7 +110,7 @@ def current_player
              puts "Please enter 1-9:"
          end
      end
- 
+
      def won?
          for x in WIN_COMBINATIONS
            win_index_1 = x[0]
@@ -119,7 +119,7 @@ def current_player
            p1 = @board[win_index_1]
            p2 = @board[win_index_2]
            p3 = @board[win_index_3]
- 
+
            if p1 == "X" && p2 == "X" && p3 == "X"
              return x
            elsif p1 == "O" && p2 == "O" && p3 == "O"
@@ -128,12 +128,12 @@ def current_player
          end
          false
      end
- 
+
      def full?
          @board.all?{|cell| cell != ' '}
      end
- 
- 
+
+
      def draw?
          if won?
          false
@@ -143,7 +143,7 @@ def current_player
          false
          end
      end
- 
+
      def over?
          if won? || draw?
            true
@@ -151,7 +151,7 @@ def current_player
            false
          end
      end
- 
+
      def winner
          for x in WIN_COMBINATIONS
            win_index_1 = x[0]
@@ -160,7 +160,7 @@ def current_player
            p1 = @board[win_index_1]
            p2 = @board[win_index_2]
            p3 = @board[win_index_3]
- 
+
            if p1 == "X" && p2 == "X" && p3 == "X"
              return 'X'
            elsif p1 == "O" && p2 == "O" && p3 == "O"
@@ -169,12 +169,12 @@ def current_player
          end
          nil
      end
- 
+
      def play
          until over?
            turn
          end
- 
+
          if winner
            puts "Congratulations #{winner}!"
          elsif draw?

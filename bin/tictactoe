@@ -6,10 +6,3 @@ game = TicTacToe.new
 game.play
 
 
-board = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
-
-
-puts "Welcome to Tic Tac Toe!"
-display_board(board)
-game = TicTacToe.new
-play(board)
